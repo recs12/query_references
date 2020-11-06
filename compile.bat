@@ -6,7 +6,7 @@ helper.py ^
 query.py ^
 Interop.SolidEdge.dll ^
 /embed ^
-/out:query_fasteners ^
+/out:query_references ^
 /platform:x64 ^
 /standalone ^
 /target:exe ^
