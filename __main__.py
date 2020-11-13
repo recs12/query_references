@@ -27,13 +27,13 @@ from System import Console
 
 __project__ = "query_references"
 __author__ = "recs"
-__version__ = "0.0.2"
-__update__ = "2020-11-06"
+__version__ = "0.0.3"
+__update__ = "2020-11-13"
 
 
-def create_various_queries(asm):
+def create_various_queries(asm, search_subassemblies):
     print("part: %s\n" % asm.Name)
-    assert asm.Type == 3, "This macro only works on .asm"
+    assert asm.Type == 3, "This macro only works on .asm document."
 
     #  REFERENCE QUERIES
     # ==================
@@ -49,6 +49,7 @@ def create_various_queries(asm):
         asm.Queries,
         "Reference [Excluded from Assembly Reports]",
         [ref_reports.criterias],
+        search_subassemblies
     )
 
     # "Reference [Not displayed in drawing views]"
@@ -62,6 +63,7 @@ def create_various_queries(asm):
         asm.Queries,
         "Reference [Not displayed in drawing views]",
         [not_display_drawings.criterias],
+        search_subassemblies
     )
 
     # "Reference [Displayed as Reference in Drawing Views]"
@@ -75,6 +77,7 @@ def create_various_queries(asm):
         asm.Queries,
         "Reference [Displayed as Reference in Drawing Views]",
         [ref_drawings.criterias],
+        search_subassemblies
     )
 
 
@@ -96,15 +99,15 @@ def remove_all_queries(assembly):
         print("[DELETED] %s " % query)
 
 
-def would_do_like_to_create_or_removeall_queries():
+def would_do_like_to_create_or_remove_all_queries():
     response = raw_input(
-        """
-            [Q] Create queries
-            [D] Delete all queries
-            Press [Q] or [D] to proceed...
-        """
+    """
+    Press [*] to create queries with all parts even those in the subassemblies.
+    Press [-] to create queries without the parts in the subassemblies.
+    Press [/] to delete all queries.
+    """
     ).lower()
-    choice = {"q": create_various_queries, "d": remove_all_queries}
+    choice = {"*": "create_various_queries_all", "-": "create_various_queries_edited_level", "/": "remove_all_queries"}
     return choice.get(response)
 
 
@@ -122,14 +125,17 @@ def user_confirmation_to_continue():
 def main():
     try:
         user_confirmation_to_continue()
-        answer = would_do_like_to_create_or_removeall_queries()
+        answer = would_do_like_to_create_or_remove_all_queries()
         application = SRI.Marshal.GetActiveObject("SolidEdge.Application")
         assembly = application.ActiveDocument
 
-        if answer is create_various_queries:
-            create_various_queries(assembly)
+        if answer == "create_various_queries_all":
+            create_various_queries(assembly, True)
 
-        elif answer is remove_all_queries:
+        elif answer == "create_various_queries_edited_level":
+            create_various_queries(assembly, False)
+
+        elif answer == "remove_all_queries":
             remove_all_queries(assembly)
 
         else:
