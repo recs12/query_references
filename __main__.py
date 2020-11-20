@@ -23,8 +23,6 @@ from helper import create_query
 from System import Console
 
 
-# import SolidEdgeAssembly as SEAssembly
-
 __project__ = "query_references"
 __author__ = "recs"
 __version__ = "0.0.3"
@@ -38,7 +36,7 @@ def create_various_queries(asm, search_subassemblies):
     #  REFERENCE QUERIES
     # ==================
 
-    # "Reference [Excluded from Assembly Reports]"
+    # "Reference [Excluded from Assembly Reports]" ---
     ref_reports = CriteriaProperties(
         seQueryPropertyReference,
         "Reference",
@@ -47,12 +45,13 @@ def create_various_queries(asm, search_subassemblies):
     )
     create_query(
         asm.Queries,
-        "Reference [Excluded from Assembly Reports]",
+        "Reference Excluded from Assembly Reports",
         [ref_reports.criterias],
         search_subassemblies
     )
 
-    # "Reference [Not displayed in drawing views]"
+
+    # "Reference [Not displayed in drawing views]" ---
     not_display_drawings = CriteriaProperties(
         seQueryPropertyReference,
         "Reference",
@@ -61,12 +60,13 @@ def create_various_queries(asm, search_subassemblies):
     )
     create_query(
         asm.Queries,
-        "Reference [Not displayed in drawing views]",
+        "Reference Not displayed in drawing views",
         [not_display_drawings.criterias],
         search_subassemblies
     )
 
-    # "Reference [Displayed as Reference in Drawing Views]"
+
+    # "Reference [Displayed as Reference in Drawing Views]" ---
     ref_drawings = CriteriaProperties(
         seQueryPropertyReference,
         "Reference",
@@ -75,7 +75,7 @@ def create_various_queries(asm, search_subassemblies):
     )
     create_query(
         asm.Queries,
-        "Reference [Displayed as Reference in Drawing Views]",
+        "Reference Displayed as Reference in Drawing Views",
         [ref_drawings.criterias],
         search_subassemblies
     )
@@ -89,9 +89,9 @@ def remove_all_queries(assembly):
     print("queries number: %s" % assembly.Queries.Count)
     # Remove query in the collection of queries
     created_queries = [
-        "Reference [Displayed as Reference in Drawing Views]",
-        "Reference [Excluded from Assembly Reports]",
-        "Reference [Not displayed in drawing views]",
+        "Reference Displayed as Reference in Drawing Views",
+        "Reference Excluded from Assembly Reports",
+        "Reference Not displayed in drawing views",
     ]
 
     for query in created_queries:
